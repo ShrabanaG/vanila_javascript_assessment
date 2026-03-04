@@ -1,3 +1,15 @@
+/**
+ * Main JavaScript file for the HDPE Pipes Landing Page
+ *
+ * Features implemented:
+ * - Sticky Header
+ * - Image Carousel with Thumbnails
+ * - Dynamic Content Rendering
+ * - FAQ Accordion
+ * - Modal Popup Form
+ * - Responsive Navigation Menu
+ */
+
 const productBoxContent = [
   {
     imgSrc: "./assets/icons/BSI_ICON.png",
@@ -306,12 +318,12 @@ const renderApplications = () => {
     { imgSrc: "./assets/fishing_image_4.webp" },
     { imgSrc: "./assets/fishing_image_5.webp" },
     { imgSrc: "./assets/fishing_image_6.webp" },
-  ].forEach((item) => {
+  ].forEach((item, index) => {
     const card = document.createElement("div");
     card.classList.add("application-card");
 
     card.innerHTML = `
-      <img src="${item.imgSrc}" alt="${item.title}" />
+      <div><img src="${item.imgSrc}" alt="${index}" /></div>
       <div class="card-overlay">
         <h3>Fishnet Manufacturing</h3>
         <p>High-performance twisting solutions for packaging yarn, strapping materials, and reinforcement threads used in modern packaging applications.</p>
@@ -589,6 +601,20 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   initCarousel();
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const hamburger = document.getElementById("hamburgerBtn");
+  const navMenu = document.getElementById("navMenu");
+  const closeBtn = document.getElementById("closeMenuBtn");
+
+  hamburger.addEventListener("click", () => {
+    navMenu.classList.toggle("active");
+  });
+
+  closeBtn.addEventListener("click", () => {
+    navMenu.classList.remove("active");
+  });
 });
 
 document.addEventListener("DOMContentLoaded", () => {
