@@ -99,6 +99,24 @@ const faqData = [
   },
 ];
 
+const portfolioData = [
+  {
+    title: "HDPE Fittings & Accessories",
+    desc: "Complete range of electrofusion and butt fusion fittings, including elbows, tees, reducers, and couplers for seamless pipe connections.",
+    image: "./assets/portfolio_1.webp",
+  },
+  {
+    title: "Professional Installation Services",
+    desc: "Expert installation and fusion welding services ensuring optimal system performance, compliance with standards, and long-term reliability.",
+    image: "./assets/portfolio_2.webp",
+  },
+  {
+    title: "PE-RT Heating Pipes",
+    desc: "Polyethylene of Raised Temperature resistance pipes ideal for underfloor heating, radiator connections, and hot water applications.",
+    image: "./assets/portfolio_1.webp",
+  },
+];
+
 document.addEventListener("DOMContentLoaded", () => {
   initStickyHeader();
   loadBoxContent();
@@ -106,6 +124,8 @@ document.addEventListener("DOMContentLoaded", () => {
   renderSpecifications();
   renderFeatures();
   renderFAQs();
+  renderPortfolio();
+  renderResources();
 });
 
 const initStickyHeader = () => {
@@ -225,5 +245,50 @@ const initFAQToggle = () => {
         item.classList.add("active");
       }
     });
+  });
+};
+
+const renderPortfolio = () => {
+  const grid = document.querySelector(".portfolio-grid");
+
+  portfolioData.forEach((item) => {
+    const card = document.createElement("div");
+    card.classList.add("portfolio-card");
+
+    card.innerHTML = `
+      <h3>${item.title}</h3>
+      <p>${item.desc}</p>
+      <div class="portfolio-image">
+        <img src="${item.image}" alt="${item.title}" />
+      </div>
+      <button class="outline-btn">Learn More</button>
+    `;
+
+    grid.appendChild(card);
+  });
+};
+
+const renderResources = () => {
+  const container = document.querySelector(".resources-list");
+
+  [
+    "HDPE Pipe Installation Manual (PDF)",
+    "Maintenance & Inspection Handbook (PDF)",
+    "Engineering Specifications Sheet (PDF)",
+  ].forEach((item) => {
+    const row = document.createElement("div");
+    row.classList.add("resource-item");
+
+    row.innerHTML = `
+      <span class="resource-title">${item}</span>
+      <button class="resource-download">
+        <span>Download PDF</span>
+        <span><img src="./assets/icons/Download.png" 
+             alt="download icon" 
+             class="download-icon" /></span>
+      </button>
+    `;
+
+    container.appendChild(row);
   });
 };
