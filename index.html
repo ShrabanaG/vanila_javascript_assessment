@@ -23,7 +23,19 @@
     </header>
     <section class="hero">
       <div class="container hero-content">
-        <div class="product-carousel"></div>
+        <div class="product-carousel">
+          <div class="hero-carousel">
+            <div class="hero-carousel-main">
+              <button class="hero-carousel-btn prev" disabled>←</button>
+
+              <img id="mainImage" src="" alt="product" />
+
+              <button class="hero-carousel-btn next">→</button>
+            </div>
+
+            <div class="carousel-thumbnails"></div>
+          </div>
+        </div>
         <div class="product-content">
           <div class="initial-box-content"></div>
           <div class="hero-header">
@@ -80,6 +92,28 @@
           </button>
         </div>
       </div>
+      <div class="modal-overlay" id="downloadBrochureModal">
+        <div class="modal-box">
+          <div class="modal-header">
+            <h3>Let us email the entire catalogue to you</h3>
+            <button class="close-download-modal">&times;</button>
+          </div>
+
+          <div class="modal-body">
+            <input
+              type="email"
+              id="email"
+              placeholder="Email Address"
+              required
+            />
+            <input type="tel" id="phone" placeholder="+91-XXX-XXX-XXXX" />
+          </div>
+
+          <div class="modal-footer">
+            <button id="downloadBrochure" disabled>Download Brochure</button>
+          </div>
+        </div>
+      </div>
     </section>
     <section class="features-section">
       <div class="container">
@@ -94,7 +128,37 @@
         <div class="features-grid"></div>
 
         <div class="features-btn-wrapper">
-          <button class="blue-btn">Request a Quote</button>
+          <button class="blue-btn" style="cursor: pointer">
+            Request a Quote
+          </button>
+        </div>
+      </div>
+      <!-- MODAL -->
+      <div class="modal-overlay" id="quoteModal">
+        <div class="modal-box">
+          <div class="modal-header">
+            <h3>Request a call back</h3>
+            <button class="close-modal">&times;</button>
+          </div>
+
+          <div class="modal-body">
+            <input type="text" id="fullName" placeholder="Full Name" />
+            <input type="text" id="companyName" placeholder="Company Name" />
+            <input type="email" id="email" placeholder="Email Address" />
+
+            <div class="phone-row">
+              <select id="countryCode">
+                <option>+91</option>
+                <option>+1</option>
+              </select>
+
+              <input type="tel" id="phone" placeholder="7003026616" />
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button id="submitQuote" disabled>Submit Form</button>
+          </div>
         </div>
       </div>
     </section>
@@ -116,6 +180,57 @@
           <div class="faq-form">
             <input type="email" placeholder="Email Address" />
             <button class="blue-btn">Request Catalogue</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="applications-section">
+      <div class="container">
+        <div class="applications-header">
+          <div class="header-text">
+            <h2>Versatile Applications Across Industries</h2>
+            <p>
+              From technical textiles to packaging materials, our
+              precision-engineered machinery delivers superior performance
+              across diverse applications.
+            </p>
+          </div>
+
+          <div class="carousel-controls">
+            <button class="carousel-btn prev">←</button>
+            <button class="carousel-btn next">→</button>
+          </div>
+        </div>
+
+        <div class="carousel-wrapper">
+          <div class="carousel-track"></div>
+        </div>
+      </div>
+    </section>
+    <section class="process-section">
+      <div class="container">
+        <div class="process-header">
+          <h2>Advanced HDPE Pipe Manufacturing Process</h2>
+          <p>
+            Our state-of-the-art extrusion technology ensures consistent
+            quality, optimal material properties, and dimensional accuracy in
+            every pipe.
+          </p>
+        </div>
+
+        <div class="process-card">
+          <div class="process-steps"></div>
+          <div class="process-indicator"></div>
+
+          <div class="process-body">
+            <div class="process-text"></div>
+            <div class="process-image"></div>
+          </div>
+
+          <div class="process-controls">
+            <button class="process-prev">← Previous</button>
+
+            <button class="process-next">Next →</button>
           </div>
         </div>
       </div>

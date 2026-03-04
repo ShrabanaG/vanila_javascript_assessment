@@ -126,6 +126,9 @@ document.addEventListener("DOMContentLoaded", () => {
   renderFAQs();
   renderPortfolio();
   renderResources();
+  renderApplications();
+  initApplicationsCarousel();
+  initProcessSection();
 });
 
 const initStickyHeader = () => {
@@ -292,3 +295,384 @@ const renderResources = () => {
     container.appendChild(row);
   });
 };
+
+const renderApplications = () => {
+  const track = document.querySelector(".carousel-track");
+
+  [
+    { imgSrc: "./assets/fishing_image_1.webp" },
+    { imgSrc: "./assets/fishing_image_2.webp" },
+    { imgSrc: "./assets/fishing_image_3.webp" },
+    { imgSrc: "./assets/fishing_image_4.webp" },
+    { imgSrc: "./assets/fishing_image_5.webp" },
+    { imgSrc: "./assets/fishing_image_6.webp" },
+  ].forEach((item) => {
+    const card = document.createElement("div");
+    card.classList.add("application-card");
+
+    card.innerHTML = `
+      <img src="${item.imgSrc}" alt="${item.title}" />
+      <div class="card-overlay">
+        <h3>Fishnet Manufacturing</h3>
+        <p>High-performance twisting solutions for packaging yarn, strapping materials, and reinforcement threads used in modern packaging applications.</p>
+      </div>
+    `;
+
+    track.appendChild(card);
+  });
+};
+
+const initApplicationsCarousel = () => {
+  const track = document.querySelector(".carousel-track");
+  const prevBtn = document.querySelector(".prev");
+  const nextBtn = document.querySelector(".next");
+
+  if (!track) return;
+
+  let currentIndex = 0;
+
+  const getCardsPerView = () => {
+    const width = window.innerWidth;
+
+    if (width <= 640) return 1;
+    if (width <= 1024) return 2;
+    return 3;
+  };
+
+  const updateCarousel = () => {
+    const cards = document.querySelectorAll(".application-card");
+
+    if (!cards.length) return;
+
+    const gap = 20;
+    const cardWidth = cards[0].offsetWidth + gap;
+    const offset = currentIndex * cardWidth;
+
+    track.style.transform = `translateX(-${offset}px)`;
+  };
+
+  nextBtn.addEventListener("click", () => {
+    const cards = document.querySelectorAll(".application-card");
+    const cardsPerView = getCardsPerView();
+
+    if (currentIndex < cards.length - cardsPerView) {
+      currentIndex++;
+      updateCarousel();
+    }
+  });
+
+  prevBtn.addEventListener("click", () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateCarousel();
+    }
+  });
+
+  window.addEventListener("resize", () => {
+    currentIndex = 0;
+    updateCarousel();
+  });
+
+  updateCarousel();
+};
+
+const initProcessSection = () => {
+  const processSteps = [
+    {
+      title: "Raw Material",
+      heading: "High-Grade Raw Material Selection",
+      desc: "Vacuum sizing tanks ensure precise outer diameter while internal pressure maintains perfect roundness and wall thickness uniformity.",
+      points: ["PE100 grade material", "Optimal molecular weight distribution"],
+      image: "./assets/fishing_image_1.webp",
+    },
+    {
+      title: "Extrusion",
+      heading: "Advanced Pipe Extrusion",
+      desc: "Modern extrusion lines ensure consistent pipe wall thickness and dimensional accuracy.",
+      points: ["High precision die head", "Stable melt flow"],
+      image: "./assets/fishing_image_2.webp",
+    },
+    {
+      title: "Cooling",
+      heading: "Controlled Cooling",
+      desc: "Cooling tanks stabilize the pipe structure and ensure dimensional stability.",
+      points: ["Uniform cooling", "Optimized crystallization"],
+      image: "./assets/fishing_image_3.webp",
+    },
+    {
+      title: "Sizing",
+      heading: "Precise Pipe Sizing",
+      desc: "Vacuum sizing tanks ensure the pipe maintains exact dimensions.",
+      points: ["Accurate pipe diameter", "Smooth surface finish"],
+      image: "./assets/fishing_image_4.webp",
+    },
+    {
+      title: "Quality Control",
+      heading: "Rigorous Quality Testing",
+      desc: "Each pipe undergoes strict quality testing before dispatch.",
+      points: ["Pressure testing", "Dimensional inspection"],
+      image: "./assets/fishing_image_5.webp",
+    },
+    {
+      title: "Marking",
+      heading: "Pipe Identification Marking",
+      desc: "Automated marking systems label each pipe with traceable information.",
+      points: ["Product traceability", "Standard compliance"],
+      image: "./assets/fishing_image_6.webp",
+    },
+    {
+      title: "Cutting",
+      heading: "Precision Pipe Cutting",
+      desc: "High-speed cutters ensure accurate pipe lengths.",
+      points: ["Automated cutting", "Minimal waste"],
+      image: "./assets/fishing_image_7.webp",
+    },
+    {
+      title: "Packaging",
+      heading: "Secure Packaging",
+      desc: "Pipes are bundled and packaged for safe transport.",
+      points: ["Protective wrapping", "Transport ready"],
+      image: "./assets/fishing_image_1.webp",
+    },
+  ];
+
+  const stepsContainer = document.querySelector(".process-steps");
+  const textContainer = document.querySelector(".process-text");
+  const imageContainer = document.querySelector(".process-image");
+  const prevBtn = document.querySelector(".process-prev");
+  const nextBtn = document.querySelector(".process-next");
+  const indicator = document.querySelector(".process-indicator");
+
+  let currentStep = 0;
+
+  const renderSteps = () => {
+    stepsContainer.innerHTML = "";
+
+    processSteps.forEach((step, index) => {
+      const btn = document.createElement("button");
+      btn.classList.add("process-step");
+
+      if (index === currentStep) {
+        btn.classList.add("active");
+      }
+
+      btn.textContent = step.title;
+
+      btn.addEventListener("click", () => {
+        currentStep = index;
+        updateProcess();
+      });
+
+      stepsContainer.appendChild(btn);
+    });
+  };
+
+  const updateProcess = () => {
+    const step = processSteps[currentStep];
+
+    textContainer.innerHTML = `
+      <h3>${step.heading}</h3>
+      <p>${step.desc}</p>
+      <ul>
+        ${step.points.map((point) => `<li><span><img src="./assets/icons/CheckCircle.png" alt="bullet-icon" /></span><span>${point}</span></li>`).join("")}
+      </ul>
+    `;
+
+    imageContainer.innerHTML = `
+      <img src="${step.image}" alt="${step.title}" />
+    `;
+
+    renderSteps();
+    updateIndicator();
+  };
+
+  const updateIndicator = () => {
+    if (!indicator) return;
+
+    indicator.textContent = `Step - ${currentStep + 1} / ${processSteps.length}`;
+  };
+
+  if (prevBtn) {
+    prevBtn.addEventListener("click", () => {
+      if (currentStep > 0) {
+        currentStep--;
+        updateProcess();
+      }
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+      if (currentStep < processSteps.length - 1) {
+        currentStep++;
+        updateProcess();
+      }
+    });
+  }
+
+  renderSteps();
+  updateProcess();
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  const images = [
+    "./assets/fishing_image_1.webp",
+    "./assets/fishing_image_2.webp",
+    "./assets/fishing_image_3.webp",
+    "./assets/fishing_image_4.webp",
+    "./assets/fishing_image_5.webp",
+  ];
+
+  const mainImage = document.getElementById("mainImage");
+  const thumbnailsContainer = document.querySelector(".carousel-thumbnails");
+
+  const prevBtn = document.querySelector(".hero-carousel-btn.prev");
+  const nextBtn = document.querySelector(".hero-carousel-btn.next");
+
+  let currentIndex = 0;
+
+  const renderThumbnails = () => {
+    thumbnailsContainer.innerHTML = "";
+
+    images.forEach((img, index) => {
+      const thumb = document.createElement("div");
+      thumb.classList.add("thumbnail");
+
+      if (index === currentIndex) {
+        thumb.classList.add("active");
+      }
+
+      thumb.innerHTML = `<img src="${img}" alt="thumbnail">`;
+
+      thumb.addEventListener("click", () => {
+        currentIndex = index;
+        updateCarousel();
+      });
+
+      thumbnailsContainer.appendChild(thumb);
+    });
+  };
+
+  const updateCarousel = () => {
+    mainImage.src = images[currentIndex];
+
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.disabled = currentIndex === images.length - 1;
+
+    const thumbs = document.querySelectorAll(".thumbnail");
+
+    thumbs.forEach((thumb, index) => {
+      thumb.classList.toggle("active", index === currentIndex);
+    });
+  };
+
+  nextBtn.addEventListener("click", () => {
+    if (currentIndex < images.length - 1) {
+      currentIndex++;
+      updateCarousel();
+    }
+  });
+
+  prevBtn.addEventListener("click", () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateCarousel();
+    }
+  });
+
+  const initCarousel = () => {
+    mainImage.src = images[currentIndex];
+
+    renderThumbnails();
+
+    updateCarousel();
+  };
+
+  initCarousel();
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const openBtn = document.querySelector(".features-btn-wrapper button");
+  const modal = document.getElementById("quoteModal");
+  const closeBtn = document.querySelector(".close-modal");
+
+  const submitBtn = document.getElementById("submitQuote");
+
+  const fullName = document.getElementById("fullName");
+  const companyName = document.getElementById("companyName");
+  const email = document.getElementById("email");
+  const phone = document.getElementById("phone");
+
+  const inputs = [fullName, companyName, email, phone];
+
+  openBtn.addEventListener("click", () => {
+    modal.classList.add("active");
+  });
+
+  closeBtn.addEventListener("click", () => {
+    modal.classList.remove("active");
+  });
+
+  inputs.forEach((input) => {
+    input.addEventListener("input", () => {
+      const allFilled = inputs.every((i) => i.value.trim() !== "");
+
+      submitBtn.disabled = !allFilled;
+    });
+  });
+
+  submitBtn.addEventListener("click", () => {
+    const data = `
+Full Name: ${fullName.value}
+Company: ${companyName.value}
+Email: ${email.value}
+Phone: ${phone.value}
+`;
+
+    alert(data);
+
+    modal.classList.remove("active");
+
+    inputs.forEach((i) => (i.value = ""));
+    submitBtn.disabled = true;
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const openBtn = document.querySelector(".specs-btn-wrapper .outline-btn");
+  const modal = document.getElementById("downloadBrochureModal");
+  const closeBtn = document.querySelector(".close-download-modal");
+
+  const submitBtn = document.getElementById("downloadBrochure");
+
+  const email = document.getElementById("email");
+  const phone = document.getElementById("phone");
+
+  openBtn.addEventListener("click", () => {
+    modal.classList.add("active");
+  });
+
+  closeBtn.addEventListener("click", () => {
+    modal.classList.remove("active");
+  });
+
+  email.addEventListener("input", () => {
+    submitBtn.disabled = email.value.trim() === "";
+  });
+
+  submitBtn.addEventListener("click", () => {
+    const data = `
+Email: ${email.value}
+Phone: ${phone.value || "Not Provided"}
+`;
+
+    alert(data);
+
+    modal.classList.remove("active");
+
+    email.value = "";
+    phone.value = "";
+
+    submitBtn.disabled = true;
+  });
+});
